@@ -70,7 +70,7 @@ class Hand {
 
     function hasStraight(int $len, bool $sameSuit) {
         $mask = 0;
-        // Straight mask is 0x11111 for 5 card
+        // Straight mask is 0b11111 for 5 card
         for ($i = 0; $i < $len; $i++) {
             $mask |= 1 << $i;
         }
@@ -84,13 +84,13 @@ class Hand {
         );
 
         foreach ($this->_hand as $c) {
-            // exract suit and rank
+            // extract suit and rank
             $s = Card::val_suit($c);
             $r = Card::val_rank($c);
             $sum[$s] |= $r;
             // duplicate Ace hand to account for Ace-low
             if ($r == Card::RANK["A"]) {
-                $sum[$s] |= 1;  // Ace-low becomes 0x01 before "2" (0x10)
+                $sum[$s] |= 1;  // Ace-low becomes 0b01 before "2" (0b10)
             }
         }
         
@@ -111,7 +111,7 @@ class Hand {
     
 
     static function match_mask(int $cards, int $mask, int $len) {
-        // move 0x11111 mask from right to left to match the pattern
+        // move 0b11111 mask from right to left to match the pattern
         $ops = count(Card::RANK) - $len;
         for ($i = 0; $i <= $ops; $i++) {
             $shifted = $mask << $i;
